@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,6 +45,21 @@ public class DialogueManager : MonoBehaviour
         currentActors = actors;
         activeMessages = 0;
         isActive = true;
+        DisplayMessage();
+    }
+    public void OpenMultipleDialogueOneActor(Message[] messages, Actor actor)
+    {
+        currentMessages = messages;
+        List<Actor> actorList = new List<Actor>();
+        foreach (Message msg in messages)
+        {
+            actorList.Add(actor);
+        }
+        Actor[] actorsArray = actorList.ToArray();
+        currentActors = actorsArray;
+        activeMessages = 0;
+        isActive = true;
+        moving = true;
         DisplayMessage();
     }
     public void OpenDialogue(Message message, Actor actor)

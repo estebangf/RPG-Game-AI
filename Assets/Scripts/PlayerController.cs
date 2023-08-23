@@ -55,7 +55,8 @@ public class PlayerController : MonoBehaviour
     }
     public void SendToNPC(Message message)
     {
-        npcInRangeToVision.GetComponent<NPCController>().AskQuestion(message);
+        if (npcInRangeToVision != null)
+            npcInRangeToVision.GetComponent<NPCController>().AskQuestion(message);
     }
 
     private void AplyAnimation()

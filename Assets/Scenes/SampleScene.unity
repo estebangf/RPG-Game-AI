@@ -1155,9 +1155,12 @@ MonoBehaviour:
   actor:
     name: Ninja Verde
     sprite: {fileID: 21300000, guid: b9b5bf69f4004814e92579d03237d33a, type: 3}
-  specifications: "Estamos en un juego de unity donde el asistente es un ninja verde
-    y el jugador un cavernicola. El juego est\xE1 en desarrollo. Puedes interactuar
-    con el personaje solo en ese contexto, fuera de eso responder\xE1s: Eso es irrelevante."
+  specifications: "Estamos en un juego de unity donde t\xFA (openai) haras de ninja
+    verde y yo ser\xE9 un cavernicola. El juego est\xE1 en desarrollo. Puedes interactuar
+    con el personaje solo en ese contexto y no puedes inventar informaci\xF3n, solo
+    puedes hablar de lo que sabes en esta introducci\xF3n, fuera de eso responder\xE1s:
+    Eso es irrelevante. Adem\xE1s, tus respuestas deben estar limitadas a un maximo
+    de 25 tokens"
 --- !u!4 &630201001 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1344102109000260249, guid: b60cc5b7d1e26ce43a5e369c7a018a88, type: 3}

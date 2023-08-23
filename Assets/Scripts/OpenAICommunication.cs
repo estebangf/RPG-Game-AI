@@ -3,6 +3,7 @@ using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Serialization.Json;
+using System.Linq;
 
 public class OpenAICommunication : MonoBehaviour
 {
@@ -39,8 +40,6 @@ public class OpenAICommunication : MonoBehaviour
         apicall.messages = messages;
         string json = JsonSerialization.ToJson(apicall);
 
-        Debug.Log("JSON: " + json);
-
         // Enviar la solicitud POST a la API de OpenAI
         //using (UnityWebRequest www = UnityWebRequest.Post(apiUrl, json, "application/json"))
         using (UnityWebRequest www = UnityWebRequest.PostWwwForm(ConstantManager.apiUrl, json))
@@ -67,16 +66,34 @@ public class OpenAICommunication : MonoBehaviour
                 // Procesar la respuesta JSON aqu� (extraer y mostrar la respuesta del asistente)
                 Debug.Log("Response: " + responseJson);
                 ResponseApiCall responseApiCall = JsonSerialization.FromJson<ResponseApiCall>(responseJson);
-                Debug.Log(responseApiCall);
                 MessageOnApi response = responseApiCall.choices[0].message;
-                Debug.Log("Response: " + response);
 
                 Message messageResponse = new Message();
                 messageResponse.message = response.content;
                 conversation.Add($"user: {message.message}");
                 conversation.Add($"{response.role}: {response.content}");
 
-                FindObjectOfType<DialogueManager>().OpenDialogue(messageResponse, actor);
+                //FindObjectOfType<DialogueManager>().OpenDialogue(messageResponse, actor);
+                string[] messagesResponse = response.content.Split(new char[] { '\n' }, System.StringSplitOptions.RemoveEmptyEntries);
+                Debug.Log("Length: " + messagesResponse.Length);
+                foreach (var item in messagesResponse)
+                {
+                    Debug.Log("msg: " + item);
+                }
+
+                List<Message> msgs = new List<Message>();
+                foreach (string msgstr in messagesResponse)
+                {
+                    Message msg = new Message();
+                    msg.message = msgstr;
+                    msgs.Add(msg);
+                }
+                Message[] messagesList = msgs.ToArray();
+                
+                if (messagesList.Length > 1)
+                   FindObjectOfType<DialogueManager>().OpenMultipleDialogueOneActor(messagesList, actor);
+                else
+                    FindObjectOfType<DialogueManager>().OpenDialogue(messageResponse, actor);
             }
             inProgress = false;
         }
